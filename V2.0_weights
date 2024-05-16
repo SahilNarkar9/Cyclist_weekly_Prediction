@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Historical data of weeks and corresponding distances traveled (example data)
+weeks = np.array([1, 2, 3, 4, 5])
+distances = np.array([137, 245, 274, 208, 105])  # Distance traveled in each week (in kilometers)
+
+# Define weights for each week (higher weights for more recent weeks)
+weights = np.array([0.025, 0.025, 0.5, 0.3, 0.6])  # Example weights (adjust as needed)
+
+# Create a Weighted Linear Regression model and fit the data
+model = LinearRegression()
+model.fit(weeks.reshape(-1, 1), distances, sample_weight=weights)
+
+# Predict distance for week 6 using the weighted regression model
+week_6_prediction = model.predict([[6]])
+
+print(f"Estimated distance for week 6 (weighted prediction): {week_6_prediction[0]:.2f} kilometers")
+
+# Visualize the weighted linear regression line and historical data
+plt.figure(figsize=(8, 6))
+plt.scatter(weeks, distances, color='blue', label='Actual data')
+plt.plot(weeks, model.predict(weeks.reshape(-1, 1)), color='red', label='Weighted linear regression line')
+plt.scatter(6, week_6_prediction, color='green', label='Week 6 weighted prediction')
+plt.xlabel('Week')
+plt.ylabel('Distance (kms)')
+plt.title('Distance Anuj travelled (Weighted Regression)')
+plt.legend()
+plt.grid(True)
+plt.show()
