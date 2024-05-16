@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Week numbers and distances traveled by AP
+weeks = np.array([1, 2, 3, 4, 5])
+distances = np.array([137, 245, 274, 208, 105])
+
+# Calculating the necessary sums
+n = len(weeks)
+sum_x = np.sum(weeks)
+sum_y = np.sum(distances)
+sum_xy = np.sum(weeks * distances)
+sum_x2 = np.sum(weeks**2)
+
+# Calculating the slope (m) and y-intercept (b) for linear regression
+m = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x**2)
+b = (sum_y - m * sum_x) / n
+
+# Defining the linear regression equation 
+def predict_distance(x):
+    return m * x + b
+
+# Predicting distance for week 6
+week_6_prediction = predict_distance(6)
+
+print(f"Estimated distance for week 6: {week_6_prediction:.2f} kilometers")
+
+# Visualizing the linear regression line and data points
+plt.figure(figsize=(8, 6))
+plt.scatter(weeks, distances, color='blue', label='Actual data')
+plt.plot(weeks, predict_distance(weeks), color='red', label='Linear regression line')
+plt.scatter(6, week_6_prediction, color='green', label='Week 6 prediction')
+plt.xlabel('Week')
+plt.ylabel('Distance (kms)')
+plt.title('Cyclist Distance Traveled Each Week')
+plt.legend()
+plt.grid(True)
+plt.show()
